@@ -1,29 +1,48 @@
 import 'package:flutter/material.dart';
-import 'package:ownerapp_pixelmind/provider/navbar/navbar_provider.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:ownerapp_pixelmind/views/splash/splash_screen.dart';
+import 'theme/app_theme.dart';
+import 'utils/auth_state.dart';
+import 'screens/login_screen.dart';
+import 'screens/home_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+    statusBarColor: Colors.transparent,
+    statusBarIconBrightness: Brightness.light,
+  ));
+  runApp(const ClientVaultApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ClientVaultApp extends StatelessWidget {
+  const ClientVaultApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => BottomNavbarProvider()),
-      ],
+    return ChangeNotifierProvider(
+      create: (_) => AuthState(),
       child: MaterialApp(
-        title: 'OWNERAPP PIXELMIND',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        ),
+        title: 'ClientVault',
         debugShowCheckedModeBanner: false,
-        home: const SplashScreen(),
+        theme: AppTheme.darkTheme,
+        home: const _AppGate(),
       ),
+    );
+  }
+}
+
+class _AppGate extends StatelessWidget {
+  const _AppGate();
+
+  @override
+  Widget build(BuildContext context) {
+    final isLoggedIn = context.watch<AuthState>().isLoggedIn;
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 400),
+      child: isLoggedIn
+          ? const HomeScreen(key: ValueKey('home'))
+          : const LoginScreen(key: ValueKey('login')),
     );
   }
 }
