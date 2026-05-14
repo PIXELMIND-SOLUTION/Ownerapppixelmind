@@ -1,3 +1,5 @@
+import 'package:client_support_app/screens/search_screen.dart';
+import 'package:client_support_app/views/crud/add_edit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../theme/app_theme.dart';
@@ -20,6 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final auth = context.watch<AuthState>();
+
+    if (auth.currentClient == null) return const SizedBox.shrink();
     final client = auth.currentClient!;
 
     final pages = [
@@ -39,8 +43,6 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-// ─── Bottom Navigation ────────────────────────────────────────────────────────
 
 class _BottomNav extends StatelessWidget {
   final int selectedIndex;
@@ -115,7 +117,8 @@ class _NavItem extends StatelessWidget {
             children: [
               AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
                 decoration: BoxDecoration(
                   color: selected
                       ? AppTheme.primary.withOpacity(0.12)
@@ -156,19 +159,17 @@ class _NavItem extends StatelessWidget {
   }
 }
 
-// ─── Dashboard Tab ────────────────────────────────────────────────────────────
-
 class _DashboardTab extends StatelessWidget {
   final Client client;
   const _DashboardTab({required this.client});
 
   @override
   Widget build(BuildContext context) {
-    final totalCreds = client.projects
-        .fold<int>(0, (sum, p) => sum + p.totalCredentials);
+    final totalCreds =
+        client.projects.fold<int>(0, (sum, p) => sum + p.totalCredentials);
     final totalAlerts = client.totalAlerts;
-    final expiredCount = client.projects
-        .fold<int>(0, (sum, p) => sum + p.expiredCount);
+    final expiredCount =
+        client.projects.fold<int>(0, (sum, p) => sum + p.expiredCount);
 
     return CustomScrollView(
       slivers: [
@@ -179,16 +180,30 @@ class _DashboardTab extends StatelessWidget {
           backgroundColor: AppTheme.background,
           title: Row(
             children: [
+              // Container(
+              //   width: 32,
+              //   height: 32,
+              //   decoration: BoxDecoration(
+              //     gradient: const LinearGradient(
+              //         colors: [AppTheme.primary, Color(0xFF0065FF)]),
+              //     borderRadius: BorderRadius.circular(8),
+              //   ),
+              //   child: const Icon(Icons.shield_outlined,
+              //       color: Colors.white, size: 16),
+              // ),
+
               Container(
                 width: 32,
                 height: 32,
                 decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                      colors: [AppTheme.primary, Color(0xFF0065FF)]),
                   borderRadius: BorderRadius.circular(8),
+                  image: const DecorationImage(
+                    image: NetworkImage(
+                      'https://hips.hearstapps.com/hmg-prod/images/henry-cavill-superman-1536761926.jpg?crop=0.49925925925925924xw:1xh;center,top&resize=640:*',
+                    ),
+                    fit: BoxFit.cover,
+                  ),
                 ),
-                child: const Icon(Icons.shield_outlined,
-                    color: Colors.white, size: 16),
               ),
               const SizedBox(width: 8),
               const Text('ClientVault',
@@ -202,7 +217,11 @@ class _DashboardTab extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.search, color: AppTheme.textSecondary),
               onPressed: () {
-                // Future: search
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                            SearchScreen(allProjects: client.projects)));
               },
             ),
           ],
@@ -214,11 +233,9 @@ class _DashboardTab extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // ── Welcome
-                Text(
+                const Text(
                   'Welcome back,',
-                  style: const TextStyle(
-                      color: AppTheme.textSecondary, fontSize: 13),
+                  style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
                 ),
                 Text(
                   client.name.split(' ').first,
@@ -232,7 +249,6 @@ class _DashboardTab extends StatelessWidget {
 
                 const SizedBox(height: 20),
 
-                // ── Alert Banner (if any critical)
                 if (expiredCount > 0) ...[
                   _AlertBanner(
                     message:
@@ -251,7 +267,6 @@ class _DashboardTab extends StatelessWidget {
                   const SizedBox(height: 12),
                 ],
 
-                // ── Stats Row
                 Row(
                   children: [
                     Expanded(
@@ -288,9 +303,46 @@ class _DashboardTab extends StatelessWidget {
                 const SizedBox(height: 28),
 
                 // ── Projects Section
+                // SectionHeader(
+                //   title: 'Your Projects',
+                //   subtitle:
+                //       '${client.projects.length} active project${client.projects.length != 1 ? 's' : ''}',
+                // ),
+
+                // In _DashboardTab, update SectionHeader to have a trailing Add button:
                 SectionHeader(
                   title: 'Your Projects',
-                  subtitle: '${client.projects.length} active project${client.projects.length != 1 ? 's' : ''}',
+                  subtitle:
+                      '${client.projects.length} active project${client.projects.length != 1 ? 's' : ''}',
+                  trailing: GestureDetector(
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (_) => const AddEditProjectScreen()),
+                    ),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: AppTheme.primaryDim,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                            color: AppTheme.primary.withOpacity(0.3)),
+                      ),
+                      child: const Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.add, color: AppTheme.primary, size: 14),
+                          SizedBox(width: 4),
+                          Text('Add',
+                              style: TextStyle(
+                                  color: AppTheme.primary,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600)),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
                 const SizedBox(height: 14),
               ],
@@ -298,7 +350,6 @@ class _DashboardTab extends StatelessWidget {
           ),
         ),
 
-        // ── Project Cards
         SliverPadding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           sliver: SliverList(
@@ -312,8 +363,7 @@ class _DashboardTab extends StatelessWidget {
                     onTap: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) =>
-                            ProjectDetailScreen(project: project),
+                        builder: (_) => ProjectDetailScreen(project: project),
                       ),
                     ),
                   ),
@@ -362,8 +412,6 @@ class _AlertBanner extends StatelessWidget {
   }
 }
 
-// ─── Project Card ─────────────────────────────────────────────────────────────
-
 class _ProjectCard extends StatelessWidget {
   final Project project;
   final VoidCallback onTap;
@@ -382,10 +430,9 @@ class _ProjectCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Accent bar + header
             Container(
               padding: const EdgeInsets.fromLTRB(18, 18, 18, 14),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 border: Border(
                   bottom: BorderSide(color: AppTheme.surfaceBorder),
                 ),
@@ -434,7 +481,6 @@ class _ProjectCard extends StatelessWidget {
                 ],
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.all(18),
               child: Column(
@@ -474,7 +520,7 @@ class _ProjectCard extends StatelessWidget {
                           color: AppTheme.warning,
                         )
                       else
-                        _ProjectStat(
+                        const _ProjectStat(
                           icon: Icons.check_circle_outline,
                           value: 'All OK',
                           label: 'Status',
@@ -513,8 +559,7 @@ class _ProjectStat extends StatelessWidget {
             style: TextStyle(
                 color: color, fontSize: 12, fontWeight: FontWeight.w600)),
         Text(label,
-            style: const TextStyle(
-                color: AppTheme.textMuted, fontSize: 12)),
+            style: const TextStyle(color: AppTheme.textMuted, fontSize: 12)),
       ],
     );
   }

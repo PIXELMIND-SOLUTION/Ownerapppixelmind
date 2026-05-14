@@ -28,8 +28,7 @@ class AlertsScreen extends StatelessWidget {
             if (auth.unreadCount > 0) ...[
               const SizedBox(width: 8),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                 decoration: BoxDecoration(
                   color: AppTheme.danger,
                   borderRadius: BorderRadius.circular(10),
@@ -163,9 +162,8 @@ class _AlertCard extends StatelessWidget {
                                 ? AppTheme.textSecondary
                                 : AppTheme.textPrimary,
                             fontSize: 13,
-                            fontWeight: isRead
-                                ? FontWeight.w400
-                                : FontWeight.w600,
+                            fontWeight:
+                                isRead ? FontWeight.w400 : FontWeight.w600,
                           ),
                         ),
                       ),
@@ -184,9 +182,7 @@ class _AlertCard extends StatelessWidget {
                   Text(
                     alert.message,
                     style: const TextStyle(
-                        color: AppTheme.textMuted,
-                        fontSize: 12,
-                        height: 1.4),
+                        color: AppTheme.textMuted, fontSize: 12, height: 1.4),
                   ),
                   const SizedBox(height: 6),
                   Text(

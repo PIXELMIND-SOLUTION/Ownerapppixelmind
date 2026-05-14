@@ -1,3 +1,4 @@
+import 'package:client_support_app/screens/edit_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -16,6 +17,7 @@ class ProfileScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppTheme.background,
       appBar: AppBar(
+        centerTitle: true,
         backgroundColor: AppTheme.background,
         title: const Text('Profile',
             style: TextStyle(
@@ -39,27 +41,41 @@ class ProfileScreen extends StatelessWidget {
               child: Row(
                 children: [
                   Container(
-                    width: 60,
-                    height: 60,
+                    width: 50,
+                    height: 50,
                     decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [AppTheme.primary, Color(0xFF0065FF)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(18),
-                    ),
-                    child: Center(
-                      child: Text(
-                        client.avatarInitials,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w700,
+                      borderRadius: BorderRadius.circular(8),
+                      image: const DecorationImage(
+                        image: NetworkImage(
+                          'https://hips.hearstapps.com/hmg-prod/images/henry-cavill-superman-1536761926.jpg?crop=0.49925925925925924xw:1xh;center,top&resize=640:*',
                         ),
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
+
+                  // Container(
+                  //   width: 60,
+                  //   height: 60,
+                  //   decoration: BoxDecoration(
+                  //     gradient: const LinearGradient(
+                  //       colors: [AppTheme.primary, Color(0xFF0065FF)],
+                  //       begin: Alignment.topLeft,
+                  //       end: Alignment.bottomRight,
+                  //     ),
+                  //     borderRadius: BorderRadius.circular(18),
+                  //   ),
+                  //   child: Center(
+                  //     child: Text(
+                  //       client.avatarInitials,
+                  //       style: const TextStyle(
+                  //         color: Colors.white,
+                  //         fontSize: 20,
+                  //         fontWeight: FontWeight.w700,
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: Column(
@@ -89,6 +105,16 @@ class ProfileScreen extends StatelessWidget {
                                   fontSize: 10,
                                   fontWeight: FontWeight.w600)),
                         ),
+                        IconButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) =>
+                                        EditProfileScreen(client: client),
+                                  ));
+                            },
+                            icon: Icon(Icons.edit))
                       ],
                     ),
                   ),
@@ -98,7 +124,6 @@ class ProfileScreen extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            // ── Account Details
             _SectionCard(
               title: 'Account Information',
               children: [
@@ -132,11 +157,13 @@ class ProfileScreen extends StatelessWidget {
                 _InfoRow(
                     icon: Icons.folder_outlined,
                     label: 'Projects',
-                    value: '${client.projects.length} project${client.projects.length != 1 ? 's' : ''}'),
+                    value:
+                        '${client.projects.length} project${client.projects.length != 1 ? 's' : ''}'),
                 _InfoRow(
                     icon: Icons.key_outlined,
                     label: 'Credentials',
-                    value: '${client.projects.fold<int>(0, (s, p) => s + p.totalCredentials)} total'),
+                    value:
+                        '${client.projects.fold<int>(0, (s, p) => s + p.totalCredentials)} total'),
                 _InfoRow(
                     icon: Icons.warning_amber_rounded,
                     label: 'Active Alerts',
@@ -163,9 +190,7 @@ class ProfileScreen extends StatelessWidget {
                     child: Text(
                       'For any credential updates, access issues, or renewals, contact your admin.',
                       style: const TextStyle(
-                          color: AppTheme.textMuted,
-                          fontSize: 12,
-                          height: 1.4),
+                          color: AppTheme.textMuted, fontSize: 12, height: 1.4),
                     ),
                   ),
                 ],
@@ -182,9 +207,7 @@ class ProfileScreen extends StatelessWidget {
                     label: 'App Name',
                     value: 'ClientVault'),
                 const _InfoRow(
-                    icon: Icons.info_outline,
-                    label: 'Version',
-                    value: '1.0.0'),
+                    icon: Icons.info_outline, label: 'Version', value: '1.0.0'),
                 const _InfoRow(
                     icon: Icons.lock_outline,
                     label: 'Auth Type',
@@ -207,8 +230,7 @@ class ProfileScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(16)),
                       title: const Text('Sign Out',
                           style: TextStyle(color: AppTheme.textPrimary)),
-                      content: const Text(
-                          'Are you sure you want to sign out?',
+                      content: const Text('Are you sure you want to sign out?',
                           style: TextStyle(color: AppTheme.textSecondary)),
                       actions: [
                         TextButton(
@@ -228,7 +250,8 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   );
                 },
-                icon: const Icon(Icons.logout, color: AppTheme.danger, size: 18),
+                icon:
+                    const Icon(Icons.logout, color: AppTheme.danger, size: 18),
                 label: const Text('Sign Out',
                     style: TextStyle(color: AppTheme.danger)),
                 style: OutlinedButton.styleFrom(
@@ -306,8 +329,8 @@ class _InfoRow extends StatelessWidget {
           Icon(icon, size: 16, color: AppTheme.textMuted),
           const SizedBox(width: 10),
           Text(label,
-              style: const TextStyle(
-                  color: AppTheme.textSecondary, fontSize: 13)),
+              style:
+                  const TextStyle(color: AppTheme.textSecondary, fontSize: 13)),
           const Spacer(),
           Flexible(
             child: Text(

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-// ─── Enums ───────────────────────────────────────────────────────────────────
-
 enum ProjectType { mobileApp, webApp, both }
 
 enum CredentialType {
@@ -22,26 +20,20 @@ enum CredentialType {
 
 enum ExpiryStatus { active, expiringSoon, critical, expired }
 
-// ─── Credential ───────────────────────────────────────────────────────────────
-
 class Credential {
   final String id;
   final String label;
   final CredentialType type;
-  final Map<String, String> fields; // key → value
+  final Map<String, String> fields;
 
-  /// Primary expiry date (subscription, account, license, domain renewal, etc.)
   final DateTime? expiryDate;
 
-  /// Secondary expiry — e.g. SSL cert date when primaryDate is domain date
   final DateTime? secondaryExpiryDate;
-  final String? secondaryExpiryLabel; // e.g. "SSL Certificate"
+  final String? secondaryExpiryLabel;
 
-  /// App Store / Play Store deep links
   final String? appStoreLink;
   final String? playStoreLink;
 
-  /// Notes
   final String? notes;
   final bool isVisible;
 
@@ -63,7 +55,6 @@ class Credential {
     if (expiryDate == null && secondaryExpiryDate == null) {
       return ExpiryStatus.active;
     }
-    // Pick the soonest expiry
     DateTime? soonest;
     for (final d in [expiryDate, secondaryExpiryDate]) {
       if (d == null) continue;
@@ -102,8 +93,6 @@ class Credential {
       );
 }
 
-// ─── Project ──────────────────────────────────────────────────────────────────
-
 class Project {
   final String id;
   final String name;
@@ -141,8 +130,6 @@ class Project {
       .toList();
 }
 
-// ─── Client / User ────────────────────────────────────────────────────────────
-
 class Client {
   final String id;
   final String name;
@@ -169,8 +156,6 @@ class Client {
   int get totalAlerts =>
       projects.fold(0, (sum, p) => sum + p.expiringCount + p.expiredCount);
 }
-
-// ─── Alert / Notification ─────────────────────────────────────────────────────
 
 class AppAlert {
   final String id;

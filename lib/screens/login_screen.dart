@@ -129,7 +129,6 @@ class _LoginScreenState extends State<LoginScreen>
                       ),
                       const SizedBox(height: 40),
 
-                      // ── Form Card
                       Container(
                         padding: const EdgeInsets.all(24),
                         decoration: BoxDecoration(

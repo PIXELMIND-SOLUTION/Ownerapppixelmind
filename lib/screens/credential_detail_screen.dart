@@ -1,3 +1,4 @@
+import 'package:client_support_app/views/crud/add_edit_credentials.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -9,8 +10,12 @@ import 'package:intl/intl.dart';
 class CredentialDetailScreen extends StatefulWidget {
   final Credential credential;
   final String projectName;
+  final Project project;
   const CredentialDetailScreen(
-      {super.key, required this.credential, required this.projectName});
+      {super.key,
+      required this.credential,
+      required this.projectName,
+      required this.project});
 
   @override
   State<CredentialDetailScreen> createState() => _CredentialDetailScreenState();
@@ -105,6 +110,19 @@ class _CredentialDetailScreenState extends State<CredentialDetailScreen> {
               style: const TextStyle(color: AppTheme.primary, fontSize: 12),
             ),
           ),
+          IconButton(
+            icon: const Icon(Icons.edit_outlined, size: 18),
+            color: AppTheme.textSecondary,
+            onPressed: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => AddEditCredentialScreen(
+                  project: widget.project,
+                  credential: widget.credential,
+                ),
+              ),
+            ),
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -112,7 +130,6 @@ class _CredentialDetailScreenState extends State<CredentialDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ── Header card ──────────────────────────────────────────────
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
@@ -160,7 +177,6 @@ class _CredentialDetailScreenState extends State<CredentialDetailScreen> {
               ),
             ),
 
-            // ── Store links (App Store / Play Store) ─────────────────────
             if (cred.hasStoreLinks) ...[
               const SizedBox(height: 12),
               const SectionHeader(title: 'Store Links'),
@@ -185,7 +201,6 @@ class _CredentialDetailScreenState extends State<CredentialDetailScreen> {
               ],
             ],
 
-            // ── Expiry warning ────────────────────────────────────────────
             if (status == ExpiryStatus.expired ||
                 status == ExpiryStatus.critical) ...[
               const SizedBox(height: 12),
@@ -217,7 +232,6 @@ class _CredentialDetailScreenState extends State<CredentialDetailScreen> {
 
             const SizedBox(height: 24),
 
-            // ── Privacy notice ────────────────────────────────────────────
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
@@ -244,7 +258,6 @@ class _CredentialDetailScreenState extends State<CredentialDetailScreen> {
             const SectionHeader(title: 'Credential Fields'),
             const SizedBox(height: 12),
 
-            // ── Fields ────────────────────────────────────────────────────
             ...cred.fields.entries.map((e) => Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: _isLinkField(e.key, e.value)
@@ -271,7 +284,6 @@ class _CredentialDetailScreenState extends State<CredentialDetailScreen> {
                         ),
                 )),
 
-            // ── Expiry information ────────────────────────────────────────
             if (cred.expiryDate != null ||
                 cred.secondaryExpiryDate != null) ...[
               const SizedBox(height: 16),
@@ -317,7 +329,6 @@ class _CredentialDetailScreenState extends State<CredentialDetailScreen> {
               ],
             ],
 
-            // ── Notes ────────────────────────────────────────────────────
             if (cred.notes != null) ...[
               const SizedBox(height: 16),
               const SectionHeader(title: 'Notes'),
@@ -364,7 +375,6 @@ class _CredentialDetailScreenState extends State<CredentialDetailScreen> {
   }
 }
 
-// ─── Store Link Button ────────────────────────────────────────────────────────
 
 class _StoreLinkButton extends StatelessWidget {
   final String label;
@@ -421,7 +431,6 @@ class _StoreLinkButton extends StatelessWidget {
   }
 }
 
-// ─── Expiry Row ───────────────────────────────────────────────────────────────
 
 class _ExpiryRow extends StatelessWidget {
   final String label;
@@ -469,7 +478,6 @@ class _ExpiryRow extends StatelessWidget {
   }
 }
 
-// ─── Link Field Card ──────────────────────────────────────────────────────────
 
 class _LinkFieldCard extends StatelessWidget {
   final String fieldKey;
@@ -533,7 +541,6 @@ class _LinkFieldCard extends StatelessWidget {
   }
 }
 
-// ─── Field Card ───────────────────────────────────────────────────────────────
 
 class _FieldCard extends StatelessWidget {
   final String fieldKey;

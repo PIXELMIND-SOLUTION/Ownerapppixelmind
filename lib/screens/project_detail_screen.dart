@@ -1,3 +1,5 @@
+import 'package:client_support_app/views/crud/add_edit_credentials.dart';
+import 'package:client_support_app/views/crud/add_edit_screen.dart';
 import 'package:flutter/material.dart';
 import '../models/models.dart';
 import '../theme/app_theme.dart';
@@ -32,6 +34,16 @@ class ProjectDetailScreen extends StatelessWidget {
               ),
               onPressed: () => Navigator.pop(context),
             ),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.edit_outlined),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (_) => AddEditProjectScreen(project: project)),
+                ),
+              ),
+            ],
             flexibleSpace: FlexibleSpaceBar(
               background: Container(
                 decoration: BoxDecoration(
@@ -105,7 +117,9 @@ class ProjectDetailScreen extends StatelessWidget {
                   Text(
                     project.description,
                     style: const TextStyle(
-                        color: AppTheme.textSecondary, fontSize: 13, height: 1.5),
+                        color: AppTheme.textSecondary,
+                        fontSize: 13,
+                        height: 1.5),
                   ),
                   const SizedBox(height: 20),
 
@@ -170,6 +184,7 @@ class ProjectDetailScreen extends StatelessWidget {
                           builder: (_) => CredentialDetailScreen(
                             credential: cred,
                             projectName: project.name,
+                            project: project,
                           ),
                         ),
                       ),
@@ -184,6 +199,19 @@ class ProjectDetailScreen extends StatelessWidget {
           const SliverToBoxAdapter(child: SizedBox(height: 32)),
         ],
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: AppTheme.primary,
+        foregroundColor: AppTheme.background,
+        icon: const Icon(Icons.add),
+        label: const Text('Add Credential',
+            style: TextStyle(fontWeight: FontWeight.w700)),
+        onPressed: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (_) => AddEditCredentialScreen(project: project),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -193,14 +221,13 @@ class ProjectDetailScreen extends StatelessWidget {
 class _CredentialListTile extends StatelessWidget {
   final Credential credential;
   final VoidCallback onTap;
-  const _CredentialListTile(
-      {required this.credential, required this.onTap});
+  const _CredentialListTile({required this.credential, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     final status = credential.expiryStatus;
-    final isIssue = status == ExpiryStatus.critical ||
-        status == ExpiryStatus.expired;
+    final isIssue =
+        status == ExpiryStatus.critical || status == ExpiryStatus.expired;
 
     return GestureDetector(
       onTap: onTap,
@@ -225,8 +252,7 @@ class _CredentialListTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Center(
-                child: CredentialTypeIcon(
-                    type: credential.type, size: 18),
+                child: CredentialTypeIcon(type: credential.type, size: 18),
               ),
             ),
             const SizedBox(width: 12),

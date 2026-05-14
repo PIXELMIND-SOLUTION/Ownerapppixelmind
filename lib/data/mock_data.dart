@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import '../models/models.dart';
 
-// ─── Mock login credentials ───────────────────────────────────────────────────
-
 final Map<String, String> mockLoginCredentials = {
   'alex@techcorp.com': 'pass1234',
   'sarah@designstudio.io': 'design99',
   'demo@client.app': 'demo',
 };
 
-// ─── Mock Clients ─────────────────────────────────────────────────────────────
-
 final Map<String, Client> mockClients = {
-  // ── Alex / TechCorp ──────────────────────────────────────────────────────
   'alex@techcorp.com': Client(
     id: 'c001',
     name: 'Alex Mercer',
@@ -23,7 +18,6 @@ final Map<String, Client> mockClients = {
     supportEmail: 'support@youragency.com',
     memberSince: DateTime(2023, 3, 15),
     projects: [
-      // ── Project 1: ShopEasy (Mobile App) ─────────────────────────────────
       Project(
         id: 'p001',
         name: 'ShopEasy App',
@@ -32,7 +26,6 @@ final Map<String, Client> mockClients = {
         accentColor: const Color(0xFF00D4FF),
         createdAt: DateTime(2023, 3, 20),
         credentials: [
-          // App Store
           Credential(
             id: 'cr001',
             label: 'App Store Connect',
@@ -48,8 +41,6 @@ final Map<String, Client> mockClients = {
             appStoreLink: 'https://apps.apple.com/app/shopeasy/id1234567890',
             notes: 'Requires 2FA. Backup codes stored separately.',
           ),
-
-          // Play Store
           Credential(
             id: 'cr002',
             label: 'Google Play Console',
@@ -66,8 +57,6 @@ final Map<String, Client> mockClients = {
                 'https://play.google.com/store/apps/details?id=com.techcorp.shopeasy',
             notes: 'Annual developer fee auto-renews via Google Wallet.',
           ),
-
-          // Twilio
           Credential(
             id: 'cr003',
             label: 'Twilio — SMS & OTP',
@@ -84,9 +73,7 @@ final Map<String, Client> mockClients = {
             notes:
                 'Balance auto-recharges at \$10. SMS used for OTP & order updates.',
           ),
-
-          // Firebase
-          Credential(
+          const Credential(
             id: 'cr004',
             label: 'Firebase (Push + Auth)',
             type: CredentialType.firebase,
@@ -103,8 +90,6 @@ final Map<String, Client> mockClients = {
             notes:
                 'Spark plan — 10K notifs/day free. FCM used for push notifications.',
           ),
-
-          // MongoDB
           Credential(
             id: 'cr005',
             label: 'MongoDB Atlas',
@@ -124,8 +109,6 @@ final Map<String, Client> mockClients = {
             notes:
                 'M10 cluster \$57/mo. IP whitelist: 0.0.0.0/0 (open — tighten before prod).',
           ),
-
-          // AWS
           Credential(
             id: 'cr006',
             label: 'AWS (S3 + CloudFront)',
@@ -146,8 +129,6 @@ final Map<String, Client> mockClients = {
           ),
         ],
       ),
-
-      // ── Project 2: TechCorp Dashboard (Web) ──────────────────────────────
       Project(
         id: 'p002',
         name: 'TechCorp Dashboard',
@@ -156,7 +137,6 @@ final Map<String, Client> mockClients = {
         accentColor: const Color(0xFFFFB020),
         createdAt: DateTime(2023, 8, 1),
         credentials: [
-          // Domain + SSL
           Credential(
             id: 'cr007',
             label: 'Domain + SSL — techcorp-dash.com',
@@ -169,15 +149,11 @@ final Map<String, Client> mockClients = {
               'SSL Provider': "Let's Encrypt",
               'Website URL': 'https://techcorp-dashboard.com',
             },
-            expiryDate:
-                DateTime.now().add(const Duration(days: -3)), // domain EXPIRED
-            secondaryExpiryDate:
-                DateTime.now().add(const Duration(days: 25)), // SSL soon
+            expiryDate: DateTime.now().add(const Duration(days: -3)),
+            secondaryExpiryDate: DateTime.now().add(const Duration(days: 25)),
             secondaryExpiryLabel: 'SSL Certificate',
             notes: 'EXPIRED — renew immediately via Namecheap dashboard.',
           ),
-
-          // Hostinger
           Credential(
             id: 'cr008',
             label: 'Hostinger — Web Hosting',
@@ -196,8 +172,6 @@ final Map<String, Client> mockClients = {
             notes:
                 'Annual plan. Renew before expiry to avoid 20% reinstatement fee.',
           ),
-
-          // SendGrid
           Credential(
             id: 'cr009',
             label: 'SendGrid — Transactional Email',
@@ -214,8 +188,6 @@ final Map<String, Client> mockClients = {
       ),
     ],
   ),
-
-  // ── Sarah / Design Studio ─────────────────────────────────────────────────
   'sarah@designstudio.io': Client(
     id: 'c002',
     name: 'Sarah Chen',
@@ -250,7 +222,7 @@ final Map<String, Client> mockClients = {
             secondaryExpiryDate: DateTime.now().add(const Duration(days: 85)),
             secondaryExpiryLabel: 'SSL Certificate',
           ),
-          Credential(
+          const Credential(
             id: 'cr011',
             label: 'Vercel — Hosting',
             type: CredentialType.hosting,
@@ -279,8 +251,6 @@ final Map<String, Client> mockClients = {
       ),
     ],
   ),
-
-  // ── Demo User ─────────────────────────────────────────────────────────────
   'demo@client.app': Client(
     id: 'c003',
     name: 'Demo User',
@@ -321,7 +291,7 @@ final Map<String, Client> mockClients = {
               'Package Name': 'com.demo.app',
             },
             playStoreLink:
-                'https://play.google.com/store/apps/details?id=com.demo.app',
+                'https://play.google.com/store/apps/details?id=com.pixelmind.brando',
             expiryDate: DateTime.now().add(const Duration(days: 90)),
           ),
           Credential(
@@ -345,8 +315,6 @@ final Map<String, Client> mockClients = {
     ],
   ),
 };
-
-// ─── Mock Alerts ──────────────────────────────────────────────────────────────
 
 List<AppAlert> getMockAlerts(Client client) {
   final alerts = <AppAlert>[];

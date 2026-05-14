@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 import '../models/models.dart';
 import '../theme/app_theme.dart';
 
-// ─── Status Badge ──────────────────────────────────────────────────────────────
 
 class ExpiryBadge extends StatelessWidget {
   final ExpiryStatus status;
@@ -41,7 +40,6 @@ class ExpiryBadge extends StatelessWidget {
   }
 }
 
-// ─── Credential Type Icon ──────────────────────────────────────────────────────
 
 class CredentialTypeIcon extends StatelessWidget {
   final CredentialType type;
@@ -81,7 +79,6 @@ class CredentialTypeIcon extends StatelessWidget {
   }
 }
 
-// ─── Section Header ────────────────────────────────────────────────────────────
 
 class SectionHeader extends StatelessWidget {
   final String title;
@@ -116,7 +113,6 @@ class SectionHeader extends StatelessWidget {
   }
 }
 
-// ─── Copy Button ───────────────────────────────────────────────────────────────
 
 class CopyButton extends StatefulWidget {
   final String value;
@@ -167,7 +163,6 @@ class _CopyButtonState extends State<CopyButton> {
   }
 }
 
-// ─── Project Type Chip ─────────────────────────────────────────────────────────
 
 class ProjectTypeChip extends StatelessWidget {
   final ProjectType type;
@@ -202,7 +197,6 @@ class ProjectTypeChip extends StatelessWidget {
   }
 }
 
-// ─── Stat Card ─────────────────────────────────────────────────────────────────
 
 class MiniStatCard extends StatelessWidget {
   final String label;
