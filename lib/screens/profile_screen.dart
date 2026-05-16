@@ -575,11 +575,11 @@ class ProfileScreen extends StatelessWidget {
                     label: 'Version',
                     value: '1.0.0',
                   ),
-                  _InfoRow(
-                    icon: Icons.lock_outline,
-                    label: 'Auth Type',
-                    value: 'Admin-assigned credentials',
-                  ),
+                  // _InfoRow(
+                  //   icon: Icons.lock_outline,
+                  //   label: 'Auth Type',
+                  //   value: 'Admin-assigned credentials',
+                  // ),
                 ],
               ),
               const SizedBox(height: 28),
