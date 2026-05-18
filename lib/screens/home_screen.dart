@@ -1,3 +1,5 @@
+// ignore_for_file: unused_element_parameter
+
 import 'dart:async';
 import 'package:client_support_app/provider/auth/auth_provider.dart';
 import 'package:client_support_app/provider/auth/profile_provider.dart';
@@ -53,9 +55,6 @@ class _CredField {
   });
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// HomeScreen
-// ─────────────────────────────────────────────────────────────────────────────
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -116,9 +115,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Bottom Nav
-// ─────────────────────────────────────────────────────────────────────────────
 class _BottomNav extends StatelessWidget {
   final int selectedIndex;
   final ValueChanged<int> onTap;
@@ -243,9 +239,6 @@ class _NavItem extends StatelessWidget {
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Dashboard Tab
-// ─────────────────────────────────────────────────────────────────────────────
 class _DashboardTab extends StatefulWidget {
   const _DashboardTab();
 
@@ -285,7 +278,6 @@ class _DashboardTabState extends State<_DashboardTab> {
 
   late final List<_CredentialGroup> _credentialGroups;
 
-  // final String _avatarUrl = 'https://i.pravatar.cc/150?img=12';
 
   @override
   void initState() {

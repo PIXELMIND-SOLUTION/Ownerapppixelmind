@@ -201,11 +201,9 @@
 // }
 
 import 'dart:io';
-import 'package:client_support_app/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-// import 'package:timeago/timeago.dart' as timeago;
 
 class StoryModel {
   final String id;
@@ -497,9 +495,6 @@ class _HomeScreenState extends State<AlertsScreen> {
               ),
             ),
           ),
-          // SliverToBoxAdapter(
-          //   child: Container(height: 8, color: const Color(0xFFF1F1F1)),
-          // ),
           SliverList.separated(
             itemCount: _posts.length,
             separatorBuilder: (_, __) =>
