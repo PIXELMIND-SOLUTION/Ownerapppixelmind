@@ -1,581 +1,11 @@
-// // // import 'package:client_support_app/screens/search_screen.dart';
-// // // import 'package:client_support_app/views/crud/add_edit_screen.dart';
-// // // import 'package:flutter/material.dart';
-// // // import 'package:provider/provider.dart';
-// // // import '../theme/app_theme.dart';
-// // // import '../utils/auth_state.dart';
-// // // import '../models/models.dart';
-// // // import '../widgets/shared_widgets.dart';
-// // // import 'project_detail_screen.dart';
-// // // import 'alerts_screen.dart';
-// // // import 'profile_screen.dart';
-
-// // // class HomeScreen extends StatefulWidget {
-// // //   const HomeScreen({super.key});
-// // //   @override
-// // //   State<HomeScreen> createState() => _HomeScreenState();
-// // // }
-
-// // // class _HomeScreenState extends State<HomeScreen> {
-// // //   int _selectedIndex = 0;
-
-// // //   @override
-// // //   Widget build(BuildContext context) {
-// // //     final auth = context.watch<AuthState>();
-
-// // //     if (auth.currentClient == null) return const SizedBox.shrink();
-// // //     final client = auth.currentClient!;
-
-// // //     final pages = [
-// // //       _DashboardTab(client: client),
-// // //       AlertsScreen(client: client),
-// // //       ProfileScreen(client: client),
-// // //     ];
-
-// // //     return Scaffold(
-// // //       backgroundColor: AppTheme.background,
-// // //       body: IndexedStack(index: _selectedIndex, children: pages),
-// // //       bottomNavigationBar: _BottomNav(
-// // //         selectedIndex: _selectedIndex,
-// // //         unreadAlerts: auth.unreadCount,
-// // //         onTap: (i) => setState(() => _selectedIndex = i),
-// // //       ),
-// // //     );
-// // //   }
-// // // }
-
-// // // class _BottomNav extends StatelessWidget {
-// // //   final int selectedIndex;
-// // //   final int unreadAlerts;
-// // //   final ValueChanged<int> onTap;
-// // //   const _BottomNav(
-// // //       {required this.selectedIndex,
-// // //       required this.unreadAlerts,
-// // //       required this.onTap});
-
-// // //   @override
-// // //   Widget build(BuildContext context) {
-// // //     return Container(
-// // //       decoration: const BoxDecoration(
-// // //         color: AppTheme.surfaceElevated,
-// // //         border: Border(top: BorderSide(color: AppTheme.surfaceBorder)),
-// // //       ),
-// // //       child: SafeArea(
-// // //         child: Padding(
-// // //           padding: const EdgeInsets.symmetric(vertical: 8),
-// // //           child: Row(
-// // //             mainAxisAlignment: MainAxisAlignment.spaceAround,
-// // //             children: [
-// // //               _NavItem(
-// // //                   icon: Icons.grid_view_rounded,
-// // //                   label: 'Projects',
-// // //                   selected: selectedIndex == 0,
-// // //                   onTap: () => onTap(0)),
-// // //               _NavItem(
-// // //                   icon: Icons.notifications_outlined,
-// // //                   label: 'Alerts',
-// // //                   selected: selectedIndex == 1,
-// // //                   badge: unreadAlerts,
-// // //                   onTap: () => onTap(1)),
-// // //               _NavItem(
-// // //                   icon: Icons.person_outline,
-// // //                   label: 'Profile',
-// // //                   selected: selectedIndex == 2,
-// // //                   onTap: () => onTap(2)),
-// // //             ],
-// // //           ),
-// // //         ),
-// // //       ),
-// // //     );
-// // //   }
-// // // }
-
-// // // class _NavItem extends StatelessWidget {
-// // //   final IconData icon;
-// // //   final String label;
-// // //   final bool selected;
-// // //   final int badge;
-// // //   final VoidCallback onTap;
-// // //   const _NavItem(
-// // //       {required this.icon,
-// // //       required this.label,
-// // //       required this.selected,
-// // //       required this.onTap,
-// // //       this.badge = 0});
-
-// // //   @override
-// // //   Widget build(BuildContext context) {
-// // //     final color = selected ? AppTheme.primary : AppTheme.textMuted;
-// // //     return GestureDetector(
-// // //       onTap: onTap,
-// // //       behavior: HitTestBehavior.opaque,
-// // //       child: Column(
-// // //         mainAxisSize: MainAxisSize.min,
-// // //         children: [
-// // //           Stack(
-// // //             clipBehavior: Clip.none,
-// // //             children: [
-// // //               AnimatedContainer(
-// // //                 duration: const Duration(milliseconds: 200),
-// // //                 padding:
-// // //                     const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-// // //                 decoration: BoxDecoration(
-// // //                   color: selected
-// // //                       ? AppTheme.primary.withOpacity(0.12)
-// // //                       : Colors.transparent,
-// // //                   borderRadius: BorderRadius.circular(20),
-// // //                 ),
-// // //                 child: Icon(icon, color: color, size: 22),
-// // //               ),
-// // //               if (badge > 0)
-// // //                 Positioned(
-// // //                   right: 8,
-// // //                   top: 0,
-// // //                   child: Container(
-// // //                     padding: const EdgeInsets.all(3),
-// // //                     decoration: const BoxDecoration(
-// // //                         color: AppTheme.danger, shape: BoxShape.circle),
-// // //                     constraints:
-// // //                         const BoxConstraints(minWidth: 16, minHeight: 16),
-// // //                     child: Text(
-// // //                       '$badge',
-// // //                       style: const TextStyle(
-// // //                           color: Colors.white,
-// // //                           fontSize: 9,
-// // //                           fontWeight: FontWeight.w700),
-// // //                       textAlign: TextAlign.center,
-// // //                     ),
-// // //                   ),
-// // //                 ),
-// // //             ],
-// // //           ),
-// // //           const SizedBox(height: 2),
-// // //           Text(label,
-// // //               style: TextStyle(
-// // //                   color: color, fontSize: 10, fontWeight: FontWeight.w500)),
-// // //         ],
-// // //       ),
-// // //     );
-// // //   }
-// // // }
-
-// // // class _DashboardTab extends StatelessWidget {
-// // //   final Client client;
-// // //   const _DashboardTab({required this.client});
-
-// // //   @override
-// // //   Widget build(BuildContext context) {
-// // //     final totalCreds =
-// // //         client.projects.fold<int>(0, (sum, p) => sum + p.totalCredentials);
-// // //     final totalAlerts = client.totalAlerts;
-// // //     final expiredCount =
-// // //         client.projects.fold<int>(0, (sum, p) => sum + p.expiredCount);
-
-// // //     return CustomScrollView(
-// // //       slivers: [
-// // //         // ── App Bar
-// // //         SliverAppBar(
-// // //           expandedHeight: 0,
-// // //           floating: true,
-// // //           backgroundColor: AppTheme.background,
-// // //           title: Row(
-// // //             children: [
-// // //               // Container(
-// // //               //   width: 32,
-// // //               //   height: 32,
-// // //               //   decoration: BoxDecoration(
-// // //               //     gradient: const LinearGradient(
-// // //               //         colors: [AppTheme.primary, Color(0xFF0065FF)]),
-// // //               //     borderRadius: BorderRadius.circular(8),
-// // //               //   ),
-// // //               //   child: const Icon(Icons.shield_outlined,
-// // //               //       color: Colors.white, size: 16),
-// // //               // ),
-
-// // //               Container(
-// // //                 width: 32,
-// // //                 height: 32,
-// // //                 decoration: BoxDecoration(
-// // //                   borderRadius: BorderRadius.circular(8),
-// // //                   image: const DecorationImage(
-// // //                     image: NetworkImage(
-// // //                       'https://hips.hearstapps.com/hmg-prod/images/henry-cavill-superman-1536761926.jpg?crop=0.49925925925925924xw:1xh;center,top&resize=640:*',
-// // //                     ),
-// // //                     fit: BoxFit.cover,
-// // //                   ),
-// // //                 ),
-// // //               ),
-// // //               const SizedBox(width: 8),
-// // //               const Text('ClientVault',
-// // //                   style: TextStyle(
-// // //                       fontSize: 16,
-// // //                       fontWeight: FontWeight.w700,
-// // //                       color: AppTheme.textPrimary)),
-// // //             ],
-// // //           ),
-// // //           actions: [
-// // //             IconButton(
-// // //               icon: const Icon(Icons.search, color: AppTheme.textSecondary),
-// // //               onPressed: () {
-// // //                 Navigator.push(
-// // //                     context,
-// // //                     MaterialPageRoute(
-// // //                         builder: (context) =>
-// // //                             SearchScreen(allProjects: client.projects)));
-// // //               },
-// // //             ),
-// // //           ],
-// // //         ),
-
-// // //         SliverToBoxAdapter(
-// // //           child: Padding(
-// // //             padding: const EdgeInsets.fromLTRB(20, 4, 20, 0),
-// // //             child: Column(
-// // //               crossAxisAlignment: CrossAxisAlignment.start,
-// // //               children: [
-// // //                 const Text(
-// // //                   'Welcome back,',
-// // //                   style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
-// // //                 ),
-// // //                 Text(
-// // //                   client.name.split(' ').first,
-// // //                   style: const TextStyle(
-// // //                     color: AppTheme.textPrimary,
-// // //                     fontSize: 26,
-// // //                     fontWeight: FontWeight.w700,
-// // //                     letterSpacing: -0.5,
-// // //                   ),
-// // //                 ),
-
-// // //                 const SizedBox(height: 20),
-
-// // //                 if (expiredCount > 0) ...[
-// // //                   _AlertBanner(
-// // //                     message:
-// // //                         '$expiredCount credential${expiredCount > 1 ? 's have' : ' has'} expired. Immediate action required.',
-// // //                     color: AppTheme.danger,
-// // //                     bgColor: AppTheme.dangerDim,
-// // //                   ),
-// // //                   const SizedBox(height: 12),
-// // //                 ] else if (totalAlerts > 0) ...[
-// // //                   _AlertBanner(
-// // //                     message:
-// // //                         '$totalAlerts service${totalAlerts > 1 ? 's are' : ' is'} expiring soon. Review required.',
-// // //                     color: AppTheme.warning,
-// // //                     bgColor: AppTheme.warningDim,
-// // //                   ),
-// // //                   const SizedBox(height: 12),
-// // //                 ],
-
-// // //                 Row(
-// // //                   children: [
-// // //                     Expanded(
-// // //                       child: MiniStatCard(
-// // //                         label: 'Projects',
-// // //                         value: '${client.projects.length}',
-// // //                         icon: Icons.folder_outlined,
-// // //                         color: AppTheme.primary,
-// // //                       ),
-// // //                     ),
-// // //                     const SizedBox(width: 10),
-// // //                     Expanded(
-// // //                       child: MiniStatCard(
-// // //                         label: 'Credentials',
-// // //                         value: '$totalCreds',
-// // //                         icon: Icons.key_outlined,
-// // //                         color: AppTheme.accent,
-// // //                       ),
-// // //                     ),
-// // //                     const SizedBox(width: 10),
-// // //                     Expanded(
-// // //                       child: MiniStatCard(
-// // //                         label: 'Alerts',
-// // //                         value: '$totalAlerts',
-// // //                         icon: Icons.warning_amber_rounded,
-// // //                         color: totalAlerts > 0
-// // //                             ? AppTheme.danger
-// // //                             : AppTheme.success,
-// // //                       ),
-// // //                     ),
-// // //                   ],
-// // //                 ),
-
-// // //                 const SizedBox(height: 28),
-
-// // //                 // ── Projects Section
-// // //                 // SectionHeader(
-// // //                 //   title: 'Your Projects',
-// // //                 //   subtitle:
-// // //                 //       '${client.projects.length} active project${client.projects.length != 1 ? 's' : ''}',
-// // //                 // ),
-
-// // //                 // In _DashboardTab, update SectionHeader to have a trailing Add button:
-// // //                 SectionHeader(
-// // //                   title: 'Your Projects',
-// // //                   subtitle:
-// // //                       '${client.projects.length} active project${client.projects.length != 1 ? 's' : ''}',
-// // //                   trailing: GestureDetector(
-// // //                     onTap: () => Navigator.push(
-// // //                       context,
-// // //                       MaterialPageRoute(
-// // //                           builder: (_) => const AddEditProjectScreen()),
-// // //                     ),
-// // //                     child: Container(
-// // //                       padding: const EdgeInsets.symmetric(
-// // //                           horizontal: 10, vertical: 6),
-// // //                       decoration: BoxDecoration(
-// // //                         color: AppTheme.primaryDim,
-// // //                         borderRadius: BorderRadius.circular(8),
-// // //                         border: Border.all(
-// // //                             color: AppTheme.primary.withOpacity(0.3)),
-// // //                       ),
-// // //                       child: const Row(
-// // //                         mainAxisSize: MainAxisSize.min,
-// // //                         children: [
-// // //                           Icon(Icons.add, color: AppTheme.primary, size: 14),
-// // //                           SizedBox(width: 4),
-// // //                           Text('Add',
-// // //                               style: TextStyle(
-// // //                                   color: AppTheme.primary,
-// // //                                   fontSize: 12,
-// // //                                   fontWeight: FontWeight.w600)),
-// // //                         ],
-// // //                       ),
-// // //                     ),
-// // //                   ),
-// // //                 ),
-// // //                 const SizedBox(height: 14),
-// // //               ],
-// // //             ),
-// // //           ),
-// // //         ),
-
-// // //         SliverPadding(
-// // //           padding: const EdgeInsets.symmetric(horizontal: 20),
-// // //           sliver: SliverList(
-// // //             delegate: SliverChildBuilderDelegate(
-// // //               (context, index) {
-// // //                 final project = client.projects[index];
-// // //                 return Padding(
-// // //                   padding: const EdgeInsets.only(bottom: 14),
-// // //                   child: _ProjectCard(
-// // //                     project: project,
-// // //                     onTap: () => Navigator.push(
-// // //                       context,
-// // //                       MaterialPageRoute(
-// // //                         builder: (_) => ProjectDetailScreen(project: project),
-// // //                       ),
-// // //                     ),
-// // //                   ),
-// // //                 );
-// // //               },
-// // //               childCount: client.projects.length,
-// // //             ),
-// // //           ),
-// // //         ),
-
-// // //         const SliverToBoxAdapter(child: SizedBox(height: 24)),
-// // //       ],
-// // //     );
-// // //   }
-// // // }
-
-// // // class _AlertBanner extends StatelessWidget {
-// // //   final String message;
-// // //   final Color color;
-// // //   final Color bgColor;
-// // //   const _AlertBanner(
-// // //       {required this.message, required this.color, required this.bgColor});
-
-// // //   @override
-// // //   Widget build(BuildContext context) {
-// // //     return Container(
-// // //       padding: const EdgeInsets.all(14),
-// // //       decoration: BoxDecoration(
-// // //         color: bgColor,
-// // //         borderRadius: BorderRadius.circular(12),
-// // //         border: Border.all(color: color.withOpacity(0.4)),
-// // //       ),
-// // //       child: Row(
-// // //         children: [
-// // //           Icon(Icons.warning_amber_rounded, color: color, size: 18),
-// // //           const SizedBox(width: 10),
-// // //           Expanded(
-// // //             child: Text(
-// // //               message,
-// // //               style: TextStyle(color: color, fontSize: 13, height: 1.4),
-// // //             ),
-// // //           ),
-// // //         ],
-// // //       ),
-// // //     );
-// // //   }
-// // // }
-
-// // // class _ProjectCard extends StatelessWidget {
-// // //   final Project project;
-// // //   final VoidCallback onTap;
-// // //   const _ProjectCard({required this.project, required this.onTap});
-
-// // //   @override
-// // //   Widget build(BuildContext context) {
-// // //     return GestureDetector(
-// // //       onTap: onTap,
-// // //       child: Container(
-// // //         decoration: BoxDecoration(
-// // //           color: AppTheme.surfaceElevated,
-// // //           borderRadius: BorderRadius.circular(18),
-// // //           border: Border.all(color: AppTheme.surfaceBorder),
-// // //         ),
-// // //         child: Column(
-// // //           crossAxisAlignment: CrossAxisAlignment.start,
-// // //           children: [
-// // //             Container(
-// // //               padding: const EdgeInsets.fromLTRB(18, 18, 18, 14),
-// // //               decoration: const BoxDecoration(
-// // //                 border: Border(
-// // //                   bottom: BorderSide(color: AppTheme.surfaceBorder),
-// // //                 ),
-// // //               ),
-// // //               child: Row(
-// // //                 children: [
-// // //                   Container(
-// // //                     width: 42,
-// // //                     height: 42,
-// // //                     decoration: BoxDecoration(
-// // //                       color: project.accentColor.withOpacity(0.12),
-// // //                       borderRadius: BorderRadius.circular(12),
-// // //                       border: Border.all(
-// // //                           color: project.accentColor.withOpacity(0.3)),
-// // //                     ),
-// // //                     child: Icon(
-// // //                       project.type == ProjectType.mobileApp
-// // //                           ? Icons.phone_android
-// // //                           : project.type == ProjectType.webApp
-// // //                               ? Icons.web
-// // //                               : Icons.devices,
-// // //                       color: project.accentColor,
-// // //                       size: 20,
-// // //                     ),
-// // //                   ),
-// // //                   const SizedBox(width: 12),
-// // //                   Expanded(
-// // //                     child: Column(
-// // //                       crossAxisAlignment: CrossAxisAlignment.start,
-// // //                       children: [
-// // //                         Text(
-// // //                           project.name,
-// // //                           style: const TextStyle(
-// // //                             color: AppTheme.textPrimary,
-// // //                             fontSize: 15,
-// // //                             fontWeight: FontWeight.w600,
-// // //                           ),
-// // //                         ),
-// // //                         const SizedBox(height: 3),
-// // //                         ProjectTypeChip(type: project.type),
-// // //                       ],
-// // //                     ),
-// // //                   ),
-// // //                   const Icon(Icons.chevron_right,
-// // //                       color: AppTheme.textMuted, size: 20),
-// // //                 ],
-// // //               ),
-// // //             ),
-// // //             Padding(
-// // //               padding: const EdgeInsets.all(18),
-// // //               child: Column(
-// // //                 crossAxisAlignment: CrossAxisAlignment.start,
-// // //                 children: [
-// // //                   Text(
-// // //                     project.description,
-// // //                     style: const TextStyle(
-// // //                         color: AppTheme.textSecondary,
-// // //                         fontSize: 12,
-// // //                         height: 1.4),
-// // //                   ),
-// // //                   const SizedBox(height: 14),
-
-// // //                   // Stats row
-// // //                   Row(
-// // //                     children: [
-// // //                       _ProjectStat(
-// // //                         icon: Icons.key_outlined,
-// // //                         value: '${project.totalCredentials}',
-// // //                         label: 'Credentials',
-// // //                         color: AppTheme.textSecondary,
-// // //                       ),
-// // //                       const SizedBox(width: 16),
-// // //                       if (project.expiredCount > 0)
-// // //                         _ProjectStat(
-// // //                           icon: Icons.error_outline,
-// // //                           value: '${project.expiredCount}',
-// // //                           label: 'Expired',
-// // //                           color: AppTheme.danger,
-// // //                         )
-// // //                       else if (project.expiringCount > 0)
-// // //                         _ProjectStat(
-// // //                           icon: Icons.timer_outlined,
-// // //                           value: '${project.expiringCount}',
-// // //                           label: 'Expiring',
-// // //                           color: AppTheme.warning,
-// // //                         )
-// // //                       else
-// // //                         const _ProjectStat(
-// // //                           icon: Icons.check_circle_outline,
-// // //                           value: 'All OK',
-// // //                           label: 'Status',
-// // //                           color: AppTheme.success,
-// // //                         ),
-// // //                     ],
-// // //                   ),
-// // //                 ],
-// // //               ),
-// // //             ),
-// // //           ],
-// // //         ),
-// // //       ),
-// // //     );
-// // //   }
-// // // }
-
-// // // class _ProjectStat extends StatelessWidget {
-// // //   final IconData icon;
-// // //   final String value;
-// // //   final String label;
-// // //   final Color color;
-// // //   const _ProjectStat(
-// // //       {required this.icon,
-// // //       required this.value,
-// // //       required this.label,
-// // //       required this.color});
-
-// // //   @override
-// // //   Widget build(BuildContext context) {
-// // //     return Row(
-// // //       children: [
-// // //         Icon(icon, size: 14, color: color),
-// // //         const SizedBox(width: 4),
-// // //         Text('$value ',
-// // //             style: TextStyle(
-// // //                 color: color, fontSize: 12, fontWeight: FontWeight.w600)),
-// // //         Text(label,
-// // //             style: const TextStyle(color: AppTheme.textMuted, fontSize: 12)),
-// // //       ],
-// // //     );
-// // //   }
-// // // }
-
-// ignore_for_file: unused_element_parameter, deprecated_member_use
-
 import 'dart:async';
-import 'package:client_support_app/screens/search_screen.dart';
+import 'package:client_support_app/provider/auth/auth_provider.dart';
+import 'package:client_support_app/provider/auth/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
-import '../utils/auth_state.dart';
-import '../models/models.dart';
 import 'alerts_screen.dart';
 import 'profile_screen.dart';
 
@@ -623,8 +53,12 @@ class _CredField {
   });
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// HomeScreen
+// ─────────────────────────────────────────────────────────────────────────────
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -634,51 +68,47 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final auth = context.watch<AuthState>();
+    final auth = context.watch<AuthProvider>();
 
-    if (auth.currentClient == null) return const SizedBox.shrink();
-    final client = auth.currentClient!;
+    if (auth.client == null) return const SizedBox.shrink();
 
-    final pages = [
-      _DashboardTab(client: client),
-      AlertsScreen(client: client,),
-      ProfileScreen(client: client),
+    final pages = const [
+      _DashboardTab(),
+      AlertsScreen(),
+      ProfileScreen(),
     ];
 
     return PopScope(
-          canPop: false,
-    onPopInvoked: (bool didPop) async {
-      if (didPop) return;
-      
-      final shouldExit = await showDialog<bool>(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text('Exit App'),
-          content: const Text('Are you sure you want to exit?'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              style: TextButton.styleFrom(foregroundColor: Colors.red),
-              child: const Text('Exit'),
-            ),
-          ],
-        ),
-      );
-      
-      if (shouldExit == true) {
-        SystemNavigator.pop();
-      }
-    },
+      canPop: false,
+      onPopInvoked: (bool didPop) async {
+        if (didPop) return;
+        final shouldExit = await showDialog<bool>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('Exit App'),
+            content: const Text('Are you sure you want to exit?'),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                style: TextButton.styleFrom(foregroundColor: Colors.red),
+                child: const Text('Exit'),
+              ),
+            ],
+          ),
+        );
+        if (shouldExit == true) {
+          SystemNavigator.pop();
+        }
+      },
       child: Scaffold(
         backgroundColor: _Light.bg,
         body: IndexedStack(index: _selectedIndex, children: pages),
         bottomNavigationBar: _BottomNav(
           selectedIndex: _selectedIndex,
-          unreadAlerts: auth.unreadCount,
           onTap: (i) => setState(() => _selectedIndex = i),
         ),
       ),
@@ -686,14 +116,14 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Bottom Nav
+// ─────────────────────────────────────────────────────────────────────────────
 class _BottomNav extends StatelessWidget {
   final int selectedIndex;
-  final int unreadAlerts;
   final ValueChanged<int> onTap;
-  const _BottomNav(
-      {required this.selectedIndex,
-      required this.unreadAlerts,
-      required this.onTap});
+
+  const _BottomNav({required this.selectedIndex, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -709,21 +139,23 @@ class _BottomNav extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _NavItem(
-                  icon: Icons.grid_view_rounded,
-                  label: 'Projects',
-                  selected: selectedIndex == 0,
-                  onTap: () => onTap(0)),
+                icon: Icons.grid_view_rounded,
+                label: 'Projects',
+                selected: selectedIndex == 0,
+                onTap: () => onTap(0),
+              ),
               _NavItem(
-                  icon: Icons.image_outlined,
-                  label: 'Highlights',
-                  selected: selectedIndex == 1,
-                  // badge: unreadAlerts,
-                  onTap: () => onTap(1)),
+                icon: Icons.image_outlined,
+                label: 'Highlights',
+                selected: selectedIndex == 1,
+                onTap: () => onTap(1),
+              ),
               _NavItem(
-                  icon: Icons.person_outline,
-                  label: 'Profile',
-                  selected: selectedIndex == 2,
-                  onTap: () => onTap(2)),
+                icon: Icons.person_outline,
+                label: 'Profile',
+                selected: selectedIndex == 2,
+                onTap: () => onTap(2),
+              ),
             ],
           ),
         ),
@@ -738,12 +170,14 @@ class _NavItem extends StatelessWidget {
   final bool selected;
   final int badge;
   final VoidCallback onTap;
-  const _NavItem(
-      {required this.icon,
-      required this.label,
-      required this.selected,
-      required this.onTap,
-      this.badge = 0});
+
+  const _NavItem({
+    required this.icon,
+    required this.label,
+    required this.selected,
+    required this.onTap,
+    this.badge = 0,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -776,15 +210,18 @@ class _NavItem extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(3),
                     decoration: const BoxDecoration(
-                        color: AppTheme.danger, shape: BoxShape.circle),
+                      color: AppTheme.danger,
+                      shape: BoxShape.circle,
+                    ),
                     constraints:
                         const BoxConstraints(minWidth: 16, minHeight: 16),
                     child: Text(
                       '$badge',
                       style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 9,
-                          fontWeight: FontWeight.w700),
+                        color: Colors.white,
+                        fontSize: 9,
+                        fontWeight: FontWeight.w700,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   ),
@@ -792,18 +229,25 @@ class _NavItem extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 2),
-          Text(label,
-              style: TextStyle(
-                  color: color, fontSize: 10, fontWeight: FontWeight.w500)),
+          Text(
+            label,
+            style: TextStyle(
+              color: color,
+              fontSize: 10,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Dashboard Tab
+// ─────────────────────────────────────────────────────────────────────────────
 class _DashboardTab extends StatefulWidget {
-  final Client client;
-  const _DashboardTab({required this.client});
+  const _DashboardTab();
 
   @override
   State<_DashboardTab> createState() => _DashboardTabState();
@@ -841,7 +285,7 @@ class _DashboardTabState extends State<_DashboardTab> {
 
   late final List<_CredentialGroup> _credentialGroups;
 
-  final String _avatarUrl = 'https://i.pravatar.cc/150?img=12';
+  // final String _avatarUrl = 'https://i.pravatar.cc/150?img=12';
 
   @override
   void initState() {
@@ -855,14 +299,16 @@ class _DashboardTabState extends State<_DashboardTab> {
         iconBg: _Light.primary.withOpacity(0.12),
         fields: const [
           _CredField(
-              label: 'Email',
-              value: 'brando@pixelmind.in',
-              icon: Icons.email_outlined),
+            label: 'Email',
+            value: 'brando@pixelmind.in',
+            icon: Icons.email_outlined,
+          ),
           _CredField(
-              label: 'Password',
-              value: 'Br@ndo#2024!',
-              icon: Icons.key_rounded,
-              isSecret: true),
+            label: 'Password',
+            value: 'Br@ndo#2024!',
+            icon: Icons.key_rounded,
+            isSecret: true,
+          ),
         ],
       ),
       _CredentialGroup(
@@ -872,18 +318,21 @@ class _DashboardTabState extends State<_DashboardTab> {
         iconBg: _Light.green.withOpacity(0.12),
         fields: const [
           _CredField(
-              label: 'Email',
-              value: 'playconsole@pixelmind.in',
-              icon: Icons.email_outlined),
+            label: 'Email',
+            value: 'playconsole@pixelmind.in',
+            icon: Icons.email_outlined,
+          ),
           _CredField(
-              label: 'Password',
-              value: 'Playst0re#2024',
-              icon: Icons.key_rounded,
-              isSecret: true),
+            label: 'Password',
+            value: 'Playst0re#2024',
+            icon: Icons.key_rounded,
+            isSecret: true,
+          ),
           _CredField(
-              label: 'Package Name',
-              value: 'com.pixelmind.brando',
-              icon: Icons.tag_rounded),
+            label: 'Package Name',
+            value: 'com.pixelmind.brando',
+            icon: Icons.tag_rounded,
+          ),
         ],
       ),
       _CredentialGroup(
@@ -893,22 +342,26 @@ class _DashboardTabState extends State<_DashboardTab> {
         iconBg: const Color(0xFFE67E22).withOpacity(0.12),
         fields: const [
           _CredField(
-              label: 'Host',
-              value: '192.168.1.100',
-              icon: Icons.computer_rounded),
+            label: 'Host',
+            value: '192.168.1.100',
+            icon: Icons.computer_rounded,
+          ),
           _CredField(
-              label: 'Username',
-              value: 'root',
-              icon: Icons.person_outline_rounded),
+            label: 'Username',
+            value: 'root',
+            icon: Icons.person_outline_rounded,
+          ),
           _CredField(
-              label: 'Password',
-              value: 'S3rv3r@Secure!',
-              icon: Icons.key_rounded,
-              isSecret: true),
+            label: 'Password',
+            value: 'S3rv3r@Secure!',
+            icon: Icons.key_rounded,
+            isSecret: true,
+          ),
           _CredField(
-              label: 'Port',
-              value: '22',
-              icon: Icons.settings_ethernet_rounded),
+            label: 'Port',
+            value: '22',
+            icon: Icons.settings_ethernet_rounded,
+          ),
         ],
       ),
       _CredentialGroup(
@@ -918,19 +371,22 @@ class _DashboardTabState extends State<_DashboardTab> {
         iconBg: const Color(0xFF3448C5).withOpacity(0.12),
         fields: const [
           _CredField(
-              label: 'Cloud Name',
-              value: 'pixelmind',
-              icon: Icons.cloud_queue_rounded),
+            label: 'Cloud Name',
+            value: 'pixelmind',
+            icon: Icons.cloud_queue_rounded,
+          ),
           _CredField(
-              label: 'API Key',
-              value: '874523109234871',
-              icon: Icons.vpn_key_outlined,
-              isSecret: true),
+            label: 'API Key',
+            value: '874523109234871',
+            icon: Icons.vpn_key_outlined,
+            isSecret: true,
+          ),
           _CredField(
-              label: 'API Secret',
-              value: 'xK9mN2pQ7rT4wY1zA8bC3dE6f',
-              icon: Icons.lock_outline_rounded,
-              isSecret: true),
+            label: 'API Secret',
+            value: 'xK9mN2pQ7rT4wY1zA8bC3dE6f',
+            icon: Icons.lock_outline_rounded,
+            isSecret: true,
+          ),
         ],
       ),
       _CredentialGroup(
@@ -940,21 +396,27 @@ class _DashboardTabState extends State<_DashboardTab> {
         iconBg: const Color(0xFF9B59B6).withOpacity(0.12),
         fields: const [
           _CredField(
-              label: 'Provider', value: 'Twilio', icon: Icons.business_rounded),
+            label: 'Provider',
+            value: 'Twilio',
+            icon: Icons.business_rounded,
+          ),
           _CredField(
-              label: 'Account SID',
-              value: 'AC1a2b3c4d5e6f7g8h9i0j',
-              icon: Icons.badge_outlined,
-              isSecret: true),
+            label: 'Account SID',
+            value: 'AC1a2b3c4d5e6f7g8h9i0j',
+            icon: Icons.badge_outlined,
+            isSecret: true,
+          ),
           _CredField(
-              label: 'Auth Token',
-              value: '9z8y7x6w5v4u3t2s1r0q',
-              icon: Icons.key_rounded,
-              isSecret: true),
+            label: 'Auth Token',
+            value: '9z8y7x6w5v4u3t2s1r0q',
+            icon: Icons.key_rounded,
+            isSecret: true,
+          ),
           _CredField(
-              label: 'Phone Number',
-              value: '+1 (415) 555-0100',
-              icon: Icons.phone_rounded),
+            label: 'Phone Number',
+            value: '+1 (415) 555-0100',
+            icon: Icons.phone_rounded,
+          ),
         ],
       ),
     ];
@@ -986,7 +448,7 @@ class _DashboardTabState extends State<_DashboardTab> {
       'Sep',
       'Oct',
       'Nov',
-      'Dec'
+      'Dec',
     ];
     const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     return '${days[now.weekday - 1]}, ${now.day} ${months[now.month - 1]} ${now.year}';
@@ -998,8 +460,6 @@ class _DashboardTabState extends State<_DashboardTab> {
     _pageController.dispose();
     super.dispose();
   }
-
-  Client get client => widget.client;
 
   bool _isVisible(int groupIndex, int fieldIndex) =>
       _visibilityMap['$groupIndex-$fieldIndex'] ?? false;
@@ -1031,6 +491,11 @@ class _DashboardTabState extends State<_DashboardTab> {
   }
 
   Widget _buildAppBar(BuildContext context) {
+    final client = context.read<AuthProvider>().client!;
+
+    final clientProvider = context.watch<ClientProvider>();
+    final profileImageUrl = clientProvider.profileImageUrl;
+
     return Container(
       color: _Light.card,
       padding: const EdgeInsets.fromLTRB(20, 0, 12, 14),
@@ -1038,10 +503,32 @@ class _DashboardTabState extends State<_DashboardTab> {
         bottom: false,
         child: Row(
           children: [
-            CircleAvatar(
-              radius: 22,
-              backgroundColor: _Light.primary.withOpacity(0.15),
-              backgroundImage: NetworkImage(_avatarUrl),
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: _Light.primary.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(22),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(22),
+                child: profileImageUrl.isNotEmpty
+                    ? Image.network(
+                        profileImageUrl,
+                        key: ValueKey(profileImageUrl),
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, ___) => const Icon(
+                          Icons.person,
+                          color: _Light.primary,
+                          size: 24,
+                        ),
+                      )
+                    : const Icon(
+                        Icons.person,
+                        color: _Light.primary,
+                        size: 24,
+                      ),
+              ),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -1052,9 +539,10 @@ class _DashboardTabState extends State<_DashboardTab> {
                   const Text(
                     'Welcome back,',
                     style: TextStyle(
-                        fontSize: 11,
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold),
+                      fontSize: 11,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   const SizedBox(height: 1),
                   Text(
@@ -1075,24 +563,28 @@ class _DashboardTabState extends State<_DashboardTab> {
                       Text(
                         _formattedDate,
                         style: const TextStyle(
-                            fontSize: 11,
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold),
+                          fontSize: 11,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
                 ],
               ),
             ),
-            IconButton(
-              icon: const Icon(Icons.search,
-                  color: AppTheme.textSecondary, size: 22),
-              onPressed: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (_) => SearchScreen(allProjects: client.projects)),
-              ),
-            ),
+            // IconButton(
+            //   icon: const Icon(Icons.search,
+            //       color: AppTheme.textSecondary, size: 22),
+            //   onPressed: () => Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //       builder: (_) => SearchScreen(
+            //         allProjects: client.projects,
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),
@@ -1118,7 +610,7 @@ class _DashboardTabState extends State<_DashboardTab> {
                     color: _Light.primary.withOpacity(0.15),
                     blurRadius: 14,
                     offset: const Offset(0, 6),
-                  )
+                  ),
                 ],
               ),
               child: ClipRRect(
@@ -1145,7 +637,7 @@ class _DashboardTabState extends State<_DashboardTab> {
             (i) => AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               margin: const EdgeInsets.symmetric(horizontal: 3),
-              width: i == _carouselIndex ? 18 : 6,
+              width: i == _carouselIndex ? 18.0 : 6.0,
               height: 6,
               decoration: BoxDecoration(
                 color: i == _carouselIndex ? _Light.primary : _Light.textLight,
@@ -1177,7 +669,7 @@ class _DashboardTabState extends State<_DashboardTab> {
                     color: Colors.black.withOpacity(0.04),
                     blurRadius: 8,
                     offset: const Offset(0, 2),
-                  )
+                  ),
                 ],
               ),
               child: Row(
@@ -1264,7 +756,7 @@ class _DashboardTabState extends State<_DashboardTab> {
             color: Colors.black.withOpacity(0.04),
             blurRadius: 6,
             offset: const Offset(0, 2),
-          )
+          ),
         ],
       ),
       child: Column(
@@ -1331,9 +823,10 @@ class _DashboardTabState extends State<_DashboardTab> {
               Text(
                 '${_credentialGroups.length} accounts',
                 style: const TextStyle(
-                    fontSize: 12,
-                    color: _Light.textLight,
-                    fontWeight: FontWeight.w500),
+                  fontSize: 12,
+                  color: _Light.textLight,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
             ],
           ),
@@ -1359,7 +852,7 @@ class _DashboardTabState extends State<_DashboardTab> {
             color: Colors.black.withOpacity(0.04),
             blurRadius: 8,
             offset: const Offset(0, 2),
-          )
+          ),
         ],
       ),
       child: Column(
@@ -1411,8 +904,11 @@ class _DashboardTabState extends State<_DashboardTab> {
                   AnimatedRotation(
                     turns: group.expanded ? 0.5 : 0,
                     duration: const Duration(milliseconds: 250),
-                    child: const Icon(Icons.keyboard_arrow_down_rounded,
-                        color: _Light.textMid, size: 20),
+                    child: const Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      color: _Light.textMid,
+                      size: 20,
+                    ),
                   ),
                 ],
               ),
@@ -1435,8 +931,9 @@ class _DashboardTabState extends State<_DashboardTab> {
                       final visible = _isVisible(groupIndex, fieldIndex);
                       return Padding(
                         padding: EdgeInsets.only(
-                            bottom:
-                                fieldIndex < group.fields.length - 1 ? 12 : 0),
+                          bottom:
+                              fieldIndex < group.fields.length - 1 ? 12.0 : 0.0,
+                        ),
                         child: _buildFieldRow(
                           field: field,
                           visible: visible,
@@ -1564,10 +1061,7 @@ class _DashboardTabState extends State<_DashboardTab> {
           padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [
-                Color(0xFF1E1E1E),
-                Color(0xFF3A3A3A),
-              ],
+              colors: [Color(0xFF1E1E1E), Color(0xFF3A3A3A)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -1577,7 +1071,7 @@ class _DashboardTabState extends State<_DashboardTab> {
                 color: Colors.black.withOpacity(0.2),
                 blurRadius: 14,
                 offset: const Offset(0, 6),
-              )
+              ),
             ],
           ),
           child: Row(
@@ -1589,11 +1083,8 @@ class _DashboardTabState extends State<_DashboardTab> {
                   color: Colors.white.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(14),
                 ),
-                child: const Icon(
-                  Icons.apple_rounded,
-                  color: Colors.white,
-                  size: 28,
-                ),
+                child: const Icon(Icons.apple_rounded,
+                    color: Colors.white, size: 28),
               ),
               const SizedBox(width: 14),
               const Expanded(
@@ -1611,19 +1102,13 @@ class _DashboardTabState extends State<_DashboardTab> {
                     SizedBox(height: 3),
                     Text(
                       'View on Apple App Store',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white70,
-                      ),
+                      style: TextStyle(fontSize: 12, color: Colors.white70),
                     ),
                   ],
                 ),
               ),
-              const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Colors.white70,
-                size: 15,
-              ),
+              const Icon(Icons.arrow_forward_ios_rounded,
+                  color: Colors.white70, size: 15),
             ],
           ),
         ),
@@ -1643,10 +1128,7 @@ class _DashboardTabState extends State<_DashboardTab> {
           padding: const EdgeInsets.all(18),
           decoration: BoxDecoration(
             gradient: const LinearGradient(
-              colors: [
-                Color(0xFF4A90D9),
-                Color(0xFF5BC8AF),
-              ],
+              colors: [Color(0xFF4A90D9), Color(0xFF5BC8AF)],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
             ),
@@ -1656,7 +1138,7 @@ class _DashboardTabState extends State<_DashboardTab> {
                 color: _Light.primary.withOpacity(0.25),
                 blurRadius: 14,
                 offset: const Offset(0, 6),
-              )
+              ),
             ],
           ),
           child: Row(
@@ -1668,11 +1150,8 @@ class _DashboardTabState extends State<_DashboardTab> {
                   color: Colors.white.withOpacity(0.18),
                   borderRadius: BorderRadius.circular(14),
                 ),
-                child: const Icon(
-                  Icons.language_rounded,
-                  color: Colors.white,
-                  size: 26,
-                ),
+                child: const Icon(Icons.language_rounded,
+                    color: Colors.white, size: 26),
               ),
               const SizedBox(width: 14),
               const Expanded(
@@ -1690,19 +1169,13 @@ class _DashboardTabState extends State<_DashboardTab> {
                     SizedBox(height: 3),
                     Text(
                       'Visit Brando Website',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.white70,
-                      ),
+                      style: TextStyle(fontSize: 12, color: Colors.white70),
                     ),
                   ],
                 ),
               ),
-              const Icon(
-                Icons.arrow_forward_ios_rounded,
-                color: Colors.white70,
-                size: 15,
-              ),
+              const Icon(Icons.arrow_forward_ios_rounded,
+                  color: Colors.white70, size: 15),
             ],
           ),
         ),
@@ -1736,7 +1209,7 @@ class _DashboardTabState extends State<_DashboardTab> {
                 color: _Light.green.withOpacity(0.3),
                 blurRadius: 14,
                 offset: const Offset(0, 6),
-              )
+              ),
             ],
           ),
           child: Row(
@@ -1759,9 +1232,10 @@ class _DashboardTabState extends State<_DashboardTab> {
                     Text(
                       'Brando',
                       style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white),
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
                     ),
                     SizedBox(height: 3),
                     Text(
@@ -1780,11 +1254,14 @@ class _DashboardTabState extends State<_DashboardTab> {
     );
   }
 }
-
 class _RenewalItem {
   final IconData icon;
   final String label;
   final String date;
-  const _RenewalItem(
-      {required this.icon, required this.label, required this.date});
+
+  const _RenewalItem({
+    required this.icon,
+    required this.label,
+    required this.date,
+  });
 }

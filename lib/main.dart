@@ -1,8 +1,9 @@
+import 'package:client_support_app/provider/auth/auth_provider.dart';
+import 'package:client_support_app/provider/auth/profile_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'theme/app_theme.dart';
-import 'utils/auth_state.dart';
 import 'screens/login_screen.dart';
 import 'screens/home_screen.dart';
 
@@ -20,8 +21,13 @@ class ClientVaultApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => AuthState(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => AuthProvider()..restoreSession(),
+        ),
+        ChangeNotifierProvider(create: (_) => ClientProvider()),
+      ],
       child: MaterialApp(
         title: 'ClientVault',
         debugShowCheckedModeBanner: false,
@@ -37,7 +43,7 @@ class _AppGate extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isLoggedIn = context.watch<AuthState>().isLoggedIn;
+    final isLoggedIn = context.select<AuthProvider, bool>((a) => a.isLoggedIn);
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 400),
       child: isLoggedIn

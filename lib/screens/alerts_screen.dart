@@ -377,8 +377,8 @@ final List<PostModel> _mockPosts = [
 ];
 
 class AlertsScreen extends StatefulWidget {
-  final Client client;
-  const AlertsScreen({super.key, required this.client});
+
+  const AlertsScreen({super.key});
 
   @override
   State<AlertsScreen> createState() => _HomeScreenState();
