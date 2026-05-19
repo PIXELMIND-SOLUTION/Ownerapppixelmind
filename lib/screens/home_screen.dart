@@ -1,4 +1,4 @@
-// ignore_for_file: unused_element_parameter
+// ignore_for_file: unused_element_parameter, deprecated_member_use, prefer_const_declarations
 
 import 'dart:async';
 import 'package:client_support_app/provider/auth/auth_provider.dart';
