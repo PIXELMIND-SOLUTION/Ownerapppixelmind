@@ -1,5 +1,6 @@
 import 'package:client_support_app/provider/auth/auth_provider.dart';
 import 'package:client_support_app/provider/auth/profile_provider.dart';
+import 'package:client_support_app/provider/credentials/credentials_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -27,6 +28,7 @@ class ClientVaultApp extends StatelessWidget {
           create: (_) => AuthProvider()..restoreSession(),
         ),
         ChangeNotifierProvider(create: (_) => ClientProvider()),
+        ChangeNotifierProvider(create: (_) => CredentialProvider()),
       ],
       child: MaterialApp(
         title: 'ClientVault',
